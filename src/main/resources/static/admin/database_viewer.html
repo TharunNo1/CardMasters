@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../styles/styles.css">
+        <title> Citi Credit Card Management </title>
+        <link rel="icon" type="image/x-icon" href="./favicon.ico">
+        <style>
+          .flex-container {
+              display: flex;
+              justify-content: space-between;
+              padding: 0;
+              list-style: none;
+          }
+          
+          
+          
+      </style>
+    </head>
+    <body>
+        <ul class="flex-container">
+            <li><a class="active" href="database_viewer.html">View spending history</a></li>
+            <li><a class="active" href="admin.html">Back to home</a></li>
+          </ul>
+          
+            <h1>Database Viewer</h1>
+
+            <div>
+                <form action="/action_page.php">
+                  <label for="merchants">Filter by Merchants :</label>
+                  <input type="text" id="merchants" name="filtermerchants" placeholder="">
+              
+                  <label for="category">Filter by Spending Category :</label>
+                  <input type="text" id="category" name="category" placeholder="">
+              
+                  <label for="gender">Filter by Gender</label>
+                  <select id="gender" name="gdr">
+                    <option value="all">All</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="others">Others</option>
+                  </select>
+                  <label for="city">Filter by City :</label>
+                  <input type="text" id="city" name="filtercity" placeholder="">
+              
+                  <label for="state">Filter by State :</label>
+                  <input type="text" id="state" name="filterstate" placeholder="">
+
+                  <label for="profession">Filter by Profession :</label>
+                  <input type="text" id="profession" name="filterprofession" placeholder="">
+              
+                  <label for="amount">Filter by Amount</label>
+                  <select id="amount" name="amt">
+                    <option value="all">All</option>
+                    <option value="low">Low</option>
+                    <option value="high">High</option>
+                  </select>
+                
+                  <input type="submit" value="Apply Filters">
+                </form>
+              </div>
+          
+    </body>
+</html>

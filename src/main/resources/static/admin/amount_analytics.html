@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Orders REST API</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+    function getGroupAmount(path, group) {
+	const url = "http://localhost:8080/transaction/" + path;
+	//Populate the table
+	fetch(url)//promise object to return data from Rest API
+		.then(response => { return response.json(); }) //resolve , data from resolve is passed to next then
+		.then(items => {
+			if (items.length > 0) {
+				let temp = "";
+				items.forEach((itemData) => {
+					temp += "<tr>";
+					temp += "<td>" + itemData[group] + "</td>";
+					temp += "<td>" + itemData.totalAmount + "</td>";
+					temp += "</tr>"
+				});
+				document.getElementById(group +'-data').innerHTML = temp;
+		}
+	}
+	);
+	//Generate the chart using Charts.js
+    drawChart(path, group);
+}
+
+function drawChart(path,group){
+    const charturl = "http://localhost:8080/transaction/"+path;
+    fetch(charturl).then(response => { return response.json(); })
+        .then( items => {
+            labels = [];
+            values = [];
+            items.forEach((itemData) => {
+                labels.push(itemData[group]);
+                values.push(itemData.totalAmount);
+            });
+            const myChart = new Chart(group+"-amt-chart", {
+              type: "bar",
+              data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Total Amount",
+                        data: values,
+                        borderColor: '#36A2EB',
+                        backgroundColor: '#3393FF'
+                    }
+               ]
+               },
+              options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Analytics - " + group
+                }
+              }
+            });
+        });
+}
+
+function getAllCharts() {
+    getGroupAmount("getStatebyAmount", "state");
+    getGroupAmount("getMerchantbyAmount", "merchant");
+    getGroupAmount("getGenderbyAmount", "gender");
+    getGroupAmount("getCitybyAmount", "city");
+    getGroupAmount("getCategorybyAmount", "category");
+}
+    </script>
+</head>
+<body style="background-color:aquamarine" onload="getAllCharts()">
+<div class="container">
+    <h1 style="color:darkgreen">Transactions Rest API</h1>
+    <p>Auto-generated Swagger UI <a href="/swagger-ui/index.html">is here</a></p>
+    <table id="items-1" class="table table-primary">
+        <tr>
+            <td><table>
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="state-data"></tbody>
+                </table>
+            </td>
+            <td>
+                <div class="chart-container">
+                    <canvas id="state-amt-chart"></canvas>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table id="items-2" class="table table-primary">
+        <tr>
+            <td><table>
+                <thead>
+                <tr>
+                    <th>Merchant</th>
+                    <th>Total Amount</th>
+                </tr>
+                </thead>
+                <tbody id="merchant-data"></tbody>
+            </table>
+            </td>
+            <td>
+                <div class="chart-container">
+                    <canvas id="merchant-amt-chart"></canvas>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table id="items-3" class="table table-primary">
+        <tr>
+            <td><table>
+                <thead>
+                <tr>
+                    <th>Gender</th>
+                    <th>Total Amount</th>
+                </tr>
+                </thead>
+                <tbody id="gender-data"></tbody>
+            </table>
+            </td>
+            <td>
+                <div class="chart-container">
+                    <canvas id="gender-amt-chart"></canvas>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table id="items-4" class="table table-primary">
+        <tr>
+            <td><table>
+                <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Total Amount</th>
+                </tr>
+                </thead>
+                <tbody id="city-data"></tbody>
+            </table>
+            </td>
+            <td>
+                <div class="chart-container">
+                    <canvas id="city-amt-chart"></canvas>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table id="items-5" class="table table-primary">
+        <tr>
+            <td><table>
+                <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Total Amount</th>
+                </tr>
+                </thead>
+                <tbody id="category-data"></tbody>
+            </table>
+            </td>
+            <td>
+                <div class="chart-container">
+                    <canvas id="category-amt-chart"></canvas>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
